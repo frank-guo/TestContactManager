@@ -1,0 +1,94 @@
+﻿@using ContactManager.Models
+@model IEnumerable<Contact>
+
+@{
+    ViewBag.Title = "Contacts";
+}
+
+@section Scripts{
+    @Scripts.Render("/Javascripts/SearchNearest.js")
+}
+
+<h2>All Contacts</h2>
+
+<p>
+    <font size="4">
+        @Html.ActionLink("Create New Contact", "Create")
+    </font>
+</p>
+@using (Html.BeginForm("Index", "AllContacts", FormMethod.Get, new { @id = "contactsForm" }))
+{
+    <div class="form-horizontal">
+        <div class="form-group">
+            @Html.Label("Search By First Name", htmlAttributes: new { @class = "col-md-3" })
+            @Html.TextBox("firstName", "", htmlAttributes: new { @class = "col-md-3", id = "firstName" })
+        </div>
+        <div class="form-group">
+            @Html.Label("Search By Last Name", htmlAttributes: new { @class = " col-md-3" })
+            @Html.TextBox("lastName", "", new { @class = "col-md-3", @id = "lastName" }) 
+        </div>
+        <div class="form-group">
+            @Html.Label("Search By Email Address", htmlAttributes: new { @class = "col-md-3" })
+            @Html.TextBox("emailAddress", "", new { @class = "col-md-3", @id = "emailAddress" }) 
+        </div>
+        <div class="form-group">
+            <div class="col-md-6">
+                 @Html.CheckBox("nearest", new { @class = "col-md-1", @id = "nearestCheck" })
+                 @Html.Label("Search For The Nearest Contact", htmlAttributes: new { @class = "col-md-11" })
+            </div>
+        </div>
+
+        <div class="form-group col-md-6">
+            <button class="btn btn-primary btn-sm" id="searchBtn">Search</button>
+        </div>
+    </div>
+}
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.LabelFor(model => model.First<Contact>().LastName)
+                </th>
+                <th>
+                    @Html.LabelFor(model => model.First<Contact>().FirstName)
+                </th>
+                <th>
+                    @Html.LabelFor(model => model.First<Contact>().Address)
+                </th>
+                <th>
+                    @Html.LabelFor(model => model.First<Contact>().EmailAddress)
+                </th>
+                <th>
+                    @Html.LabelFor(model => model.First<Contact>().PhoneNumber)
+                </th>
+            </tr>
+
+
+        @foreach (var item in Model)
+        {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LastName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FirstName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Address)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EmailAddress)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PhoneNumber)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+                        @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+                    </td>
+                </tr>
+        }
+
+        </table>
+
+
